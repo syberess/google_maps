@@ -1,59 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🗺️ Google Maps Firma Arama
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Google Maps Places API kullanarak firma/işletme arama ve Excel/CSV formatında dışa aktarma yapabilen Laravel uygulaması.
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Özellikler
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 🔍 **Firma Arama** - Google Maps Places API ile kapsamlı firma arama
+- 📍 **Konum Bazlı Filtreleme** - Belirli şehir veya bölgeye göre arama
+- 📞 **Detaylı Bilgiler** - Telefon, adres, website, çalışma saatleri
+- ⭐ **Puanlama Bilgisi** - Google rating ve yorum sayısı
+- 📊 **Excel Export** - Sonuçları .xlsx formatında indirme
+- 📄 **CSV Export** - Sonuçları .csv formatında indirme
+- 🎨 **Modern UI** - Tailwind CSS ile responsive tasarım
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📋 Gereksinimler
 
-## Learning Laravel
+- PHP >= 8.2
+- Composer
+- Google Maps API Key (Places API etkin olmalı)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Kurulum
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Projeyi Klonlayın
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/syberess/google_maps.git
+cd google_maps
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Bağımlılıkları Yükleyin
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. Ortam Dosyasını Oluşturun
 
-## Contributing
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Google Maps API Key Ekleyin
 
-## Code of Conduct
+`.env` dosyasını açın ve aşağıdaki satırı ekleyin:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```env
+GOOGLE_MAPS_API_KEY=your_api_key_here
+```
 
-## Security Vulnerabilities
+> ⚠️ **Önemli:** Google Cloud Console'dan API Key alırken **Places API**'yi etkinleştirmeyi unutmayın!
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Uygulamayı Başlatın
 
-## License
+```bash
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Tarayıcınızda `http://localhost:8000` adresine gidin.
+
+## 🔑 Google Maps API Key Alma
+
+1. [Google Cloud Console](https://console.cloud.google.com/) adresine gidin
+2. Yeni bir proje oluşturun veya mevcut projeyi seçin
+3. **APIs & Services > Library** bölümüne gidin
+4. **Places API** ve **Maps JavaScript API**'yi etkinleştirin
+5. **APIs & Services > Credentials** bölümünden API Key oluşturun
+6. API Key'i `.env` dosyasına ekleyin
+
+## 📖 Kullanım
+
+1. Ana sayfada arama kutusuna firma türü veya ismi girin (örn: "restoran", "otel", "Apple Store")
+2. İsteğe bağlı olarak konum belirtin (örn: "İstanbul", "Kadıköy")
+3. Maksimum sonuç sayısını seçin (1-60 arası)
+4. **Ara** butonuna tıklayın
+5. Sonuçları görüntüleyin ve **Excel** veya **CSV** olarak indirin
+
+## 📁 Proje Yapısı
+
+```
+├── app/
+│   ├── Exports/
+│   │   └── CompaniesExport.php      # Excel export sınıfı
+│   ├── Http/Controllers/
+│   │   └── CompanySearchController.php  # Ana controller
+│   └── Services/
+│       └── GoogleMapsService.php    # Google Maps API servisi
+├── resources/views/
+│   ├── layouts/
+│   │   ├── app.blade.php            # Ana layout
+│   │   ├── search.blade.php         # Arama sayfası
+│   │   └── results.blade.php        # Sonuçlar sayfası
+│   └── welcome.blade.php
+├── routes/
+│   └── web.php                      # Route tanımları
+└── .env.example                     # Örnek ortam dosyası
+```
+
+## 🛣️ API Endpoints
+
+| Method | URI | Açıklama |
+|--------|-----|----------|
+| GET | `/` | Ana sayfa (arama formu) |
+| POST | `/search` | Arama yap |
+| GET | `/export/excel` | Excel olarak indir |
+| GET | `/export/csv` | CSV olarak indir |
+
+## 🤝 Katkıda Bulunma
+
+1. Bu repoyu fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add some amazing feature'`)
+4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
+5. Pull Request açın
+
+## 📝 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
+
+## 👤 Geliştirici
+
+**syberess**
+
+- GitHub: [@syberess](https://github.com/syberess)
+
+---
+
+⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
