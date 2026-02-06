@@ -18,31 +18,49 @@ class CompanySearchController extends Controller
 
     public function search(Request $request)
     {
+        // DEBUG: İstek parametreleri
+        \Log::info('=== ARAMA İSTEĞİ BAŞLADI ===');
+        \Log::info('Request Data:', $request->all());
+        
         $request->validate([
             'keyword' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'radius' => 'required|integer|min:100|max:50000',
+            'result_count' => 'required|integer|min:10|max:40',
         ]);
 
         $keyword = $request->input('keyword');
         $location = $request->input('location');
-        $radius = $request->input('radius');
+        $resultCount = $request->input('result_count');
+        
+        \Log::info('Validated Params:', [
+            'keyword' => $keyword,
+            'location' => $location,
+            'result_count' => $resultCount
+        ]);
 
         try {
             // Google Maps API ile arama yap
-            $results = $this->googleMapsService->searchCompanies($keyword, $location, $radius);
+            \Log::info('GoogleMapsService çağrılıyor...');
+            $results = $this->googleMapsService->searchCompanies($keyword, $location, $resultCount);
+            \Log::info('Sonuç sayısı: ' . count($results));
+            \Log::info('İlk sonuç:', $results[0] ?? 'Sonuç yok');
             
             // Session'a kaydet (export için)
             session(['search_results' => $results]);
+            
+            \Log::info('View\'e gönderiliyor...');
+            \Log::info('=== ARAMA İSTEĞİ TAMAMLANDI ===');
             
             return view('results', [
                 'results' => $results,
                 'keyword' => $keyword,
                 'location' => $location,
-                'radius' => $radius
+                'result_count' => $resultCount
             ]);
             
         } catch (\Exception $e) {
+            \Log::error('ARAMA HATASI: ' . $e->getMessage());
+            \Log::error('Stack Trace: ' . $e->getTraceAsString());
             return back()->withErrors(['error' => 'Arama sırasında bir hata oluştu: ' . $e->getMessage()]);
         }
     }

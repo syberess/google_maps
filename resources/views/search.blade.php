@@ -153,20 +153,22 @@
             </div>
             
             <div class="form-group">
-                <label for="radius">
-                    <span class="icon">📏</span>
-                    Yarıçap (metre)
+                <label for="result_count">
+                    <span class="icon">📊</span>
+                    Sonuç Sayısı
                 </label>
-                <input 
-                    type="number" 
-                    id="radius" 
-                    name="radius" 
-                    value="5000" 
-                    min="100" 
-                    max="50000"
+                <select 
+                    id="result_count" 
+                    name="result_count" 
                     required
+                    style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; background: white; cursor: pointer; transition: all 0.3s;"
                 >
-                <div class="help-text">Arama yapılacak alan (100-50000 metre arası)</div>
+                    <option value="10">10 sonuç</option>
+                    <option value="20" selected>20 sonuç</option>
+                    <option value="30">30 sonuç</option>
+                    <option value="40">40 sonuç</option>
+                </select>
+                <div class="help-text">Kaç firma görmek istediğinizi seçin</div>
             </div>
             
             <button type="submit">
