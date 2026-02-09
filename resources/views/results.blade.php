@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Arama Sonuçları</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -108,13 +110,21 @@
         .link:hover { text-decoration: underline; }
         .no-results { text-align: center; padding: 60px 20px; color: #666; }
         .no-results-icon { font-size: 64px; margin-bottom: 20px; }
+        .result-card.selected { border-color: #10b981 !important; background: #ecfdf5 !important; }
+        .result-card .checkbox-container { position: absolute; top: 10px; right: 10px; }
+        .result-card { position: relative; }
+        .btn-crm { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
+        .btn-crm:disabled { opacity: 0.5; cursor: not-allowed; }
+        .select-all-container { display: flex; align-items: center; gap: 10px; margin-right: 20px; }
+        .select-all-container input { width: 18px; height: 18px; cursor: pointer; }
+        .select-all-container label { cursor: pointer; font-weight: 600; color: #333; }
         @media (max-width: 768px) {
             .results-grid { grid-template-columns: 1fr; }
             .search-info { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
-<body>
+<body x-data="crmApp()">
     <div class="container">
         <div class="header">
             <h1>🗺️ Arama Sonuçları</h1>
@@ -124,9 +134,16 @@
                 <div class="info-item"><span>�</span><strong>İstenen Sonuç:</strong><span>{{ $result_count }} firma</span></div>
             </div>
             <div class="actions">
-                <a href="/" class="btn btn-secondary">⬅️ Yeni Arama</a>
+                <a href="{{ route('search') }}" class="btn btn-secondary">⬅️ Yeni Arama</a>
                 @if(count($results) > 0)
-                    <a href="{{ route('company.export') }}" class="btn btn-success">📥 Excel'e Aktar ({{ count($results) }} firma)</a>
+                    <div class="select-all-container">
+                        <input type="checkbox" id="selectAll" @change="toggleAll($event.target.checked)">
+                        <label for="selectAll">Tümünü Seç (<span x-text="selectedCount"></span>/{{ count($results) }})</label>
+                    </div>
+                    <button @click="saveToCRM()" :disabled="selectedCount === 0" class="btn btn-crm">
+                        ➕ CRM'e Ekle (<span x-text="selectedCount"></span> firma)
+                    </button>
+                    <a href="{{ route('company.search.export') }}" class="btn btn-success">📥 Excel'e Aktar ({{ count($results) }} firma)</a>
                 @endif
             </div>
         </div>
@@ -141,7 +158,15 @@
             <div class="results-count">📊 Toplam <strong>{{ count($results) }}</strong> firma bulundu</div>
             <div class="results-grid">
                 @foreach($results as $index => $result)
-                    <div class="result-card" data-marker-index="{{ $index }}">
+                    <div class="result-card" 
+                         :class="{ 'selected': selectedResults.includes({{ $index }}) }"
+                         data-marker-index="{{ $index }}">
+                        <div class="checkbox-container">
+                            <input type="checkbox" 
+                                   :checked="selectedResults.includes({{ $index }})"
+                                   @change="toggleResult({{ $index }})"
+                                   style="width: 20px; height: 20px; cursor: pointer;">
+                        </div>
                         <div class="card-header-row">
                             <div class="card-title">
                                 <span class="marker-number">{{ $index + 1 }}</span>
@@ -334,6 +359,64 @@
                 };
                 document.head.appendChild(script);
             });
+        </script>
+        
+        <script>
+            function crmApp() {
+                return {
+                    selectedResults: [],
+                    results: @json($results),
+                    
+                    get selectedCount() {
+                        return this.selectedResults.length;
+                    },
+                    
+                    toggleResult(index) {
+                        const idx = this.selectedResults.indexOf(index);
+                        if (idx > -1) {
+                            this.selectedResults.splice(idx, 1);
+                        } else {
+                            this.selectedResults.push(index);
+                        }
+                    },
+                    
+                    toggleAll(checked) {
+                        if (checked) {
+                            this.selectedResults = this.results.map((_, i) => i);
+                        } else {
+                            this.selectedResults = [];
+                        }
+                    },
+                    
+                    async saveToCRM() {
+                        if (this.selectedResults.length === 0) return;
+                        
+                        const selectedData = this.selectedResults.map(i => this.results[i]);
+                        
+                        try {
+                            const response = await fetch('{{ route("companies.bulk-store") }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                },
+                                body: JSON.stringify({ companies: selectedData })
+                            });
+                            
+                            const data = await response.json();
+                            
+                            if (data.success) {
+                                alert(`${data.added} firma CRM'e eklendi! ${data.skipped > 0 ? `(${data.skipped} firma zaten kayıtlı)` : ''}`);
+                                window.location.href = '{{ route("companies.index") }}';
+                            } else {
+                                alert('Hata: ' + (data.message || 'Bilinmeyen hata'));
+                            }
+                        } catch (error) {
+                            alert('Bir hata oluştu: ' + error.message);
+                        }
+                    }
+                }
+            }
         </script>
         @else
         <div class="results-container">

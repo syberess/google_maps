@@ -3,17 +3,67 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\CompanySearchController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\ReportController;
 
-Route::get('/', function () {
-    return view('search');
-})->name('home');
+/*
+|--------------------------------------------------------------------------
+| CRM Routes
+|--------------------------------------------------------------------------
+*/
 
+// Dashboard
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+// Google Maps Search (Original Functionality)
 Route::get('/search', function () {
-    return redirect()->route('home');
+    return view('search');
+})->name('search');
+Route::post('/search', [CompanySearchController::class, 'search'])->name('company.search');
+Route::get('/search-export', [CompanySearchController::class, 'export'])->name('company.search.export');
+
+// Companies (CRM)
+Route::prefix('companies')->name('companies.')->group(function () {
+    Route::get('/', [CompanyController::class, 'index'])->name('index');
+    Route::get('/export', [CompanyController::class, 'export'])->name('export');
+    Route::post('/bulk-store', [CompanyController::class, 'bulkStore'])->name('bulk-store');
+    Route::get('/{company}', [CompanyController::class, 'show'])->name('show');
+    Route::patch('/{company}/status', [CompanyController::class, 'updateStatus'])->name('update-status');
+    Route::put('/{company}/enriched-data', [CompanyController::class, 'updateEnrichedData'])->name('enriched-data');
+    Route::put('/{company}/notes', [CompanyController::class, 'updateNotes'])->name('notes');
+    Route::delete('/{company}', [CompanyController::class, 'destroy'])->name('destroy');
 });
 
-Route::post('/search', [CompanySearchController::class, 'search'])->name('company.search');
-Route::get('/export', [CompanySearchController::class, 'export'])->name('company.export');
+// Activities
+Route::prefix('activities')->name('activities.')->group(function () {
+    Route::get('/', [ActivityController::class, 'index'])->name('index');
+    Route::post('/', [ActivityController::class, 'store'])->name('store');
+    Route::patch('/{activity}/complete', [ActivityController::class, 'complete'])->name('complete');
+    Route::delete('/{activity}', [ActivityController::class, 'destroy'])->name('destroy');
+});
+
+// Map & Route
+Route::prefix('maps')->name('maps.')->group(function () {
+    Route::get('/', [MapController::class, 'index'])->name('index');
+    Route::get('/navigation/{company}', [MapController::class, 'navigation'])->name('navigation');
+});
+
+// Reports
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+/*
+|--------------------------------------------------------------------------
+| API Routes (for AJAX calls)
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('api')->group(function () {
+    Route::post('/route/optimize', [MapController::class, 'optimizeRoute'])->name('api.route.optimize');
+});
 
 // API Key Test Route
 Route::get('/test-api', function () {
