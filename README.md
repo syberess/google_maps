@@ -1,4 +1,4 @@
-# 🗺️ Google Maps Firma Arama & CRM
+# Google Maps Firma Arama & CRM
 
 Google Maps Places API kullanarak firma/işletme arama, yönetim ve Excel/CSV formatında dışa aktarma yapabilen Laravel CRM uygulaması.
 
@@ -6,31 +6,31 @@ Google Maps Places API kullanarak firma/işletme arama, yönetim ve Excel/CSV fo
 ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## ✨ Özellikler
+## Özellikler
 
-### 🔍 Firma Arama
+### Firma Arama
 - Google Maps Places API ile kapsamlı firma arama
 - Konum bazlı filtreleme (şehir/bölge)
 - Detaylı bilgiler (telefon, adres, website, çalışma saatleri)
 - Google rating ve yorum sayısı
 
-### 📊 CRM Özellikleri
+### CRM Özellikleri
 - **Firma Yönetimi** - Firmaları kaydetme, durum takibi, notlar
 - **Aktivite Takibi** - Firma bazlı aktivite/görev yönetimi
 - **Zenginleştirilmiş Veriler** - Ek firma bilgileri saklama
 - **Dashboard** - Genel bakış ve istatistikler
 
-### 🗺️ Harita & Navigasyon
+### Harita & Navigasyon
 - **Harita Görünümü** - Firmaların harita üzerinde görüntülenmesi
 - **Rota Optimizasyonu** - Ziyaret rotası planlama
 - **Navigasyon** - Firma lokasyonuna yönlendirme
 
-### 📈 Raporlama & Export
+### Raporlama & Export
 - Excel/CSV formatında dışa aktarma
 - Raporlama ekranı
-- 🎨 **Modern UI** - Tailwind CSS ile responsive tasarım
+-  **Modern UI** - Tailwind CSS ile responsive tasarım
 
-## 📋 Gereksinimler
+##  Gereksinimler
 
 - PHP >= 8.2
 - Composer
@@ -38,7 +38,7 @@ Google Maps Places API kullanarak firma/işletme arama, yönetim ve Excel/CSV fo
 - MySQL veya SQLite veritabanı
 - Google Maps API Key (Places API etkin olmalı)
 
-## 🚀 Kurulum
+##  Kurulum
 
 ### 1. Projeyi Klonlayın
 
@@ -69,7 +69,7 @@ php artisan key:generate
 GOOGLE_MAPS_API_KEY=your_api_key_here
 ```
 
-> ⚠️ **Önemli:** Google Cloud Console'dan API Key alırken **Places API**'yi etkinleştirmeyi unutmayın!
+> **Önemli:** Google Cloud Console'dan API Key alırken **Places API**'yi etkinleştirmeyi unutmayın!
 
 ### 5. Veritabanını Yapılandırın
 
@@ -111,7 +111,7 @@ composer dev
 
 Tarayıcınızda `http://localhost:8000` adresine gidin.
 
-## 🔑 Google Maps API Key Alma
+## Google Maps API Key Alma
 
 1. [Google Cloud Console](https://console.cloud.google.com/) adresine gidin
 2. Yeni bir proje oluşturun veya mevcut projeyi seçin
@@ -137,7 +137,7 @@ Tarayıcınızda `http://localhost:8000` adresine gidin.
 4. **Harita** - Firmaları harita üzerinde görüntüleyin, rota planlayın
 5. **Raporlar** - Detaylı raporları inceleyin
 
-## 📁 Proje Yapısı
+##  Proje Yapısı
 
 ```
 ├── app/
@@ -191,7 +191,7 @@ Tarayıcınızda `http://localhost:8000` adresine gidin.
 └── .env.example                         # Örnek ortam dosyası
 ```
 
-## 🛣️ API Endpoints
+## API Endpoints
 
 ### Dashboard
 | Method | URI | Açıklama |
@@ -238,7 +238,7 @@ Tarayıcınızda `http://localhost:8000` adresine gidin.
 |--------|-----|----------|
 | GET | `/reports` | Raporlar sayfası |
 
-## 🤝 Katkıda Bulunma
+##  Katkıda Bulunma
 
 1. Bu repoyu fork edin
 2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
@@ -246,11 +246,11 @@ Tarayıcınızda `http://localhost:8000` adresine gidin.
 4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
 5. Pull Request açın
 
-## 📝 Lisans
+## Lisans
 
 Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
 
-## 👤 Geliştirici
+##  Geliştirici
 
 **syberess**
 
@@ -258,4 +258,4 @@ Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICE
 
 ---
 
-⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
+Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
