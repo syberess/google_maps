@@ -120,7 +120,7 @@ Tarayıcınızda `http://localhost:8000` adresine gidin.
 5. **APIs & Services > Credentials** bölümünden API Key oluşturun
 6. API Key'i `.env` dosyasına ekleyin
 
-## 📖 Kullanım
+##  Kullanım
 
 ### Firma Arama
 1. Menüden **Arama** sayfasına gidin
