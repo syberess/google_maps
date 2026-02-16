@@ -63,6 +63,40 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 
 Route::prefix('api')->group(function () {
     Route::post('/route/optimize', [MapController::class, 'optimizeRoute'])->name('api.route.optimize');
+    
+    // Hızlı arama API
+    Route::get('/companies/search', function () {
+        $query = request('q');
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+        
+        $companies = \App\Models\Company::where('name', 'like', "%{$query}%")
+            ->orWhere('address', 'like', "%{$query}%")
+            ->orWhere('phone', 'like', "%{$query}%")
+            ->limit(10)
+            ->get(['id', 'name', 'address', 'phone']);
+            
+        return response()->json($companies);
+    });
+    
+    // Son aktiviteler API (bildirimler için)
+    Route::get('/recent-activities', function () {
+        $activities = \App\Models\Activity::with('company:id,name')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get()
+            ->map(function ($activity) {
+                return [
+                    'id' => $activity->id,
+                    'description' => $activity->description,
+                    'company_id' => $activity->company_id,
+                    'created_at' => $activity->created_at->diffForHumans(),
+                ];
+            });
+            
+        return response()->json($activities);
+    });
 });
 
 // API Key Test Route

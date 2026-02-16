@@ -200,7 +200,7 @@
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Notlar</h3>
             <form action="{{ route('companies.notes', $company) }}" method="POST">
                 @csrf
-                @method('PATCH')
+                @method('PUT')
                 <textarea name="notes" rows="4"
                           class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-blue-500"
                           placeholder="Firma hakkında notlarınızı buraya yazın...">{{ $company->notes }}</textarea>
