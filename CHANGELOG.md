@@ -12,6 +12,11 @@ Format \[Keep a Changelog](https://keepachangelog.com/en/1.0.0/) standardına uy
 
 ## [Unreleased]
 
+### Fixed
+- **Company model:** status ilişkisi foreign key hatası düzeltildi (`company_status_id` → `status_id`)
+- **Activity model:** HasFactory trait eklendi, factory() metodu artık çalışıyor
+- **EnrichedData model:** HasFactory trait eklendi, factory() metodu artık çalışıyor
+
 ### Added
 - (Henüz yok)
 
