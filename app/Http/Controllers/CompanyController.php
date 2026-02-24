@@ -322,6 +322,20 @@ class CompanyController extends Controller
             $query->whereHas('status', fn($q) => $q->where('slug', $request->status));
         }
 
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+            });
+        }
+
         $companies = $query->get();
         $filename = 'firmalar_' . date('Y-m-d_H-i-s');
         $format = $request->query('format', 'xlsx');
