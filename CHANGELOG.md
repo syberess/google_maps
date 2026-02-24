@@ -10,8 +10,40 @@ Format \[Keep a Changelog](https://keepachangelog.com/en/1.0.0/) standardına uy
 
 
 
-\## \[Unreleased]
+## [Unreleased]
 
+### Added
+- (Henüz yok)
+
+### Changed
+- (Henüz yok)
+
+### Fixed
+- (Henüz yok)
+
+---
+
+## [0.1.0] - 2026-02-24
+
+### Added
+- Yer imi (bookmark) özelliği eklendi
+- Kullanıcılar Google Maps yerlerini kaydedebilecek
+- `bookmarks` tablosu ve migration
+- `Bookmark` modeli (User ilişkisi ile)
+- `BookmarkFactory` oluşturuldu
+- Company ve CompanyStatus factory'leri eklendi
+- 10 unit test (%100 başarı, 28 assertion)
+
+### Changed
+- CompanyStatus modeli güncellendi
+
+### Infrastructure
+- Foreign key cascade delete ayarlandı
+- Performans için user_id ve created_at indexleri eklendi
+
+### Tests
+- BookmarkTest unit testleri (10 test, 0.84s)
+- Company unit testleri eklendi
 
 
 \### Added
