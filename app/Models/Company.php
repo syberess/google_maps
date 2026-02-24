@@ -38,7 +38,7 @@ class Company extends Model
      */
     public function status()
     {
-        return $this->belongsTo(CompanyStatus::class);
+        return $this->belongsTo(CompanyStatus::class, 'status_id');
     }
 
     public function activities()
